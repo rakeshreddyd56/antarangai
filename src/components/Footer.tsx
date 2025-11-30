@@ -1,0 +1,67 @@
+import { Twitter, Linkedin, Instagram, Github } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+const Footer = () => {
+  return (
+    <footer className="bg-white border-t border-gray-100 pt-16 pb-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          <div className="col-span-1 md:col-span-1">
+            <Link to="/" className="text-2xl font-bold text-primary mb-4 block">Antarang.AI</Link>
+            <p className="text-gray-500 text-sm leading-relaxed">
+              Empowering Indian entrepreneurs with AI-driven insights to build world-class startups.
+            </p>
+          </div>
+          
+          <div>
+            <h4 className="font-bold text-gray-900 mb-4">Product</h4>
+            <ul className="space-y-2 text-sm text-gray-600">
+              <li><a href="#" className="hover:text-primary transition-colors">Case Studies</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-gray-900 mb-4">Company</h4>
+            <ul className="space-y-2 text-sm text-gray-600">
+              <li><a href="#" className="hover:text-primary transition-colors">About Us</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">Blog</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">Contact</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-gray-900 mb-4">Legal</h4>
+            <ul className="space-y-2 text-sm text-gray-600">
+              <li><Link to="/legal" className="hover:text-primary transition-colors">Legal Disclaimer</Link></li>
+              <li><Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="hover:text-primary transition-colors">Terms of Service</Link></li>
+              <li><Link to="/cookies" className="hover:text-primary transition-colors">Cookie Policy</Link></li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-sm text-gray-500 mb-4 md:mb-0">
+            &copy; {new Date().getFullYear()} Antarang.AI. All rights reserved.
+          </p>
+          <div className="flex space-x-6">
+            <a href="#" className="text-gray-400 hover:text-primary transition-colors">
+              <Twitter size={20} />
+            </a>
+            <a href="#" className="text-gray-400 hover:text-primary transition-colors">
+              <Linkedin size={20} />
+            </a>
+            <a href="#" className="text-gray-400 hover:text-primary transition-colors">
+              <Instagram size={20} />
+            </a>
+            <a href="#" className="text-gray-400 hover:text-primary transition-colors">
+              <Github size={20} />
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
