@@ -4,6 +4,14 @@ import { ShieldCheck, Target, AlertCircle, Users, Layers, Rocket, BadgeIndianRup
 const HeroMapVisual = () => {
   const { scrollY } = useScroll();
   
+  // Detect if mobile using window width (basic check for hydration safe rendering could be improved but effective for visual tweaks)
+  // Ideally use a hook, but for visual logic inside framer motion transforms, we often need conditions.
+  // Since we want to keep web version EXACTLY same, we will use media queries in className for container
+  // and conditional logic for transform ranges if possible, or just use CSS transform: scale() on a parent wrapper for mobile.
+
+  // Strategy: Keep all "web" animations as is. Wrap the entire visual in a container that scales it down significantly on mobile.
+  // This ensures the relative movements (pixels) work visually even if scaled down.
+  
   // Animation range: 0 to 400px scroll
   const range = [0, 400];
 
@@ -76,8 +84,8 @@ const HeroMapVisual = () => {
   const lineOpacity = useTransform(scrollY, [50, 150], [0, 1]);
 
   return (
-    <div className="relative w-full h-[400px] md:h-[750px] flex items-center justify-center overflow-visible scale-[0.45] sm:scale-75 md:scale-100 origin-top md:origin-center -mt-20 md:mt-0">
-      <div className="relative w-full max-w-6xl h-full flex justify-center items-center gap-4 md:gap-20">
+    <div className="relative w-full h-[400px] md:h-[750px] flex items-center justify-center overflow-visible">
+      <div className="relative w-full max-w-6xl h-full flex justify-center items-center gap-4 md:gap-20 scale-[0.45] md:scale-100 origin-center md:origin-center">
         
         {/* Connecting Line - High Z-Index for 3D overlap effect */}
         <svg className="absolute inset-0 w-full h-full z-50 pointer-events-none overflow-visible" viewBox="0 0 1200 750">
