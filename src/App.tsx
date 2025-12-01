@@ -9,6 +9,7 @@ import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import Cookies from './pages/Cookies';
 import Legal from './pages/Legal';
+import ScrollToTop from './components/ScrollToTop';
 
 const LandingPage = () => (
   <div className="min-h-screen bg-white">
@@ -26,6 +27,7 @@ const LandingPage = () => (
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/terms" element={<Terms />} />

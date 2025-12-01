@@ -43,7 +43,7 @@ const Navbar = () => {
               <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-50 border border-gray-100">
                 <img src="/assets/logo-final.png" alt="Antarang Logo" className="w-full h-full object-cover" />
               </div>
-              <span className="text-xl font-bold text-gray-900 tracking-tight font-sans">Antarang.AI</span>
+              <span className="text-xl font-bold text-gray-900 tracking-tight font-sans">AntarangAI</span>
             </Link>
           </div>
           
