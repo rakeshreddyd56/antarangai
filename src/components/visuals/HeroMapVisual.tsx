@@ -76,7 +76,7 @@ const HeroMapVisual = () => {
   const lineOpacity = useTransform(scrollY, [50, 150], [0, 1]);
 
   return (
-    <div className="relative w-full h-[500px] md:h-[750px] flex items-center justify-center overflow-visible scale-[0.6] md:scale-100 origin-top md:origin-center -mt-20 md:mt-0">
+    <div className="relative w-full h-[400px] md:h-[750px] flex items-center justify-center overflow-visible scale-[0.45] sm:scale-75 md:scale-100 origin-top md:origin-center -mt-20 md:mt-0">
       <div className="relative w-full max-w-6xl h-full flex justify-center items-center gap-4 md:gap-20">
         
         {/* Connecting Line - High Z-Index for 3D overlap effect */}
