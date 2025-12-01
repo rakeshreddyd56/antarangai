@@ -84,11 +84,28 @@ const HeroMapVisual = () => {
   const lineOpacity = useTransform(scrollY, [50, 150], [0, 1]);
 
   return (
-    <div className="relative w-full h-[400px] md:h-[750px] flex items-center justify-center overflow-visible">
-      <div className="relative w-full max-w-6xl h-full flex justify-center items-center gap-4 md:gap-20 scale-[0.45] md:scale-100 origin-center md:origin-center">
+    <div className="relative w-full h-[950px] md:h-[750px] flex items-center justify-center overflow-hidden md:overflow-visible">
+      <div className="relative w-full max-w-6xl h-full flex flex-col md:flex-row justify-center items-center gap-8 md:gap-20 scale-[0.8] md:scale-100 origin-top md:origin-center pt-16 md:pt-0">
         
-        {/* Connecting Line - High Z-Index for 3D overlap effect */}
-        <svg className="absolute inset-0 w-full h-full z-50 pointer-events-none overflow-visible" viewBox="0 0 1200 750">
+        {/* Mobile Connecting Arrow (Simple Vertical) */}
+        <svg className="absolute w-full h-full z-50 pointer-events-none md:hidden overflow-visible" viewBox="0 0 400 950">
+           <defs>
+             <marker id="arrowhead-mobile" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6" />
+             </marker>
+           </defs>
+           <path 
+             d="M 200 480 L 200 540" 
+             stroke="#3b82f6" 
+             strokeWidth="4" 
+             strokeDasharray="8 8"
+             markerEnd="url(#arrowhead-mobile)"
+             opacity="0.6"
+           />
+        </svg>
+
+        {/* Connecting Line - High Z-Index for 3D overlap effect (Desktop Only) */}
+        <svg className="absolute inset-0 w-full h-full z-50 pointer-events-none overflow-visible hidden md:block" viewBox="0 0 1200 750">
           <defs>
             <filter id="line-shadow" x="-50%" y="-50%" width="200%" height="200%">
               <feDropShadow dx="4" dy="8" stdDeviation="4" floodColor="rgba(0,0,0,0.2)" />
