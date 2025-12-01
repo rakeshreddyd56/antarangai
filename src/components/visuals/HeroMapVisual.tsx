@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ShieldCheck, Target, TrendingUp, AlertCircle, Users, Layers, Rocket, BadgeIndianRupee, ScrollText } from 'lucide-react';
+import { ShieldCheck, Target, AlertCircle, Users, Layers, Rocket, BadgeIndianRupee, ScrollText } from 'lucide-react';
 
 const HeroMapVisual = () => {
   const { scrollY } = useScroll();
@@ -44,11 +44,6 @@ const HeroMapVisual = () => {
   // --- Right Board (Antarang AI) Animations ---
   const rightCardRotate = useTransform(scrollY, range, [12, 2]);
   const rightCardX = useTransform(scrollY, range, [50, 0]);
-
-  // AI Verified Badge
-  const verifiedX = useTransform(scrollY, range, [350, 0]);
-  const verifiedY = useTransform(scrollY, range, [-400, 0]);
-  const verifiedRotate = useTransform(scrollY, range, [180, 0]);
 
   // AI Main Card
   const aiCardX = useTransform(scrollY, range, [450, 0]);

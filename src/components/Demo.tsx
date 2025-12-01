@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { PieChart, BarChart3, Shield, Zap, Users, Target, AlertTriangle, Calendar, Brain, IndianRupee, Banknote } from 'lucide-react';
+import { PieChart, BarChart3, Zap, Users, AlertTriangle, Calendar, Brain, Banknote } from 'lucide-react';
 import { useRef } from 'react';
 
 const Demo = () => {

@@ -7,18 +7,6 @@ const Navbar = () => {
   const location = useLocation();
   const isHome = location.pathname === '/';
 
-  const scrollToSection = (sectionId: string) => {
-    if (!isHome) {
-      // Navigate to home first then scroll (handled by useEffect in home or simple hash link logic if standard a tag)
-      // But using standard a tags with /#id works for redirect + scroll usually.
-      return;
-    }
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   const NavLink = ({ href, children }: { href: string, children: React.ReactNode }) => {
     // If on home page, regular anchor to hash works for scroll
     // If on other pages, link to /#hash to go back to home and scroll
