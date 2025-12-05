@@ -1,4 +1,4 @@
-import { Twitter, Linkedin, Instagram, Github, Mail } from 'lucide-react';
+import { Twitter, Linkedin, Instagram, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
@@ -57,17 +57,14 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} Antarang.AI. All rights reserved.
           </p>
           <div className="flex space-x-6">
-            <a href="#" className="text-gray-400 hover:text-primary transition-colors">
+            <a href="https://x.com/antarangai?s=21" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary transition-colors">
               <Twitter size={20} />
             </a>
-            <a href="#" className="text-gray-400 hover:text-primary transition-colors">
+            <a href="https://www.linkedin.com/in/antarang-ai-94951b393?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary transition-colors">
               <Linkedin size={20} />
             </a>
-            <a href="#" className="text-gray-400 hover:text-primary transition-colors">
+            <a href="https://www.instagram.com/antarangai_?igsh=dGc2MTZkdTJseXJj&utm_source=qr" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-primary transition-colors">
               <Instagram size={20} />
-            </a>
-            <a href="#" className="text-gray-400 hover:text-primary transition-colors">
-              <Github size={20} />
             </a>
           </div>
         </div>
