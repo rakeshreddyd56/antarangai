@@ -12,6 +12,9 @@ import Legal from './pages/Legal';
 import About from './pages/About';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
+import Investors from './pages/Investors';
+import Contact from './pages/Contact';
+import Support from './pages/Support';
 import ScrollToTop from './components/ScrollToTop';
 
 const LandingPage = () => (
@@ -36,6 +39,9 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route path="/investors" element={<Investors />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/support" element={<Support />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/cookies" element={<Cookies />} />
