@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import { Mail, Send, MessageSquare, Clock, MapPin, Phone } from 'lucide-react';
-import { useState, FormEvent } from 'react';
+import { Mail, Send, MessageSquare, Clock, MapPin } from 'lucide-react';
+import { useState, type FormEvent } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
