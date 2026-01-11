@@ -1,12 +1,25 @@
 import React from 'react';
 import { Menu, X, ShieldCheck } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSecure, setIsSecure] = React.useState(false);
   const location = useLocation();
   const isHome = location.pathname === '/';
+
+  // Prevent body scroll when menu is open
+  React.useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
   // Check if connection is secure (HTTPS)
   React.useEffect(() => {
@@ -15,7 +28,7 @@ const Navbar = () => {
     }
   }, []);
 
-  const NavLink = ({ href, children }: { href: string, children: React.ReactNode }) => {
+  const NavLink = ({ href, children, onClick }: { href: string, children: React.ReactNode, onClick?: () => void }) => {
     // If on home page, regular anchor to hash works for scroll
     // If on other pages, link to /#hash to go back to home and scroll
     const linkHref = isHome ? href : `/${href}`;
@@ -23,11 +36,36 @@ const Navbar = () => {
     return (
       <a 
         href={linkHref} 
+        onClick={onClick}
         className="text-gray-600 hover:text-gray-900 transition-colors font-medium text-sm cursor-pointer"
       >
         {children}
       </a>
     );
+  };
+
+  const menuVariants = {
+    closed: {
+      opacity: 0,
+      y: -20,
+      transition: {
+        staggerChildren: 0.05,
+        staggerDirection: -1
+      }
+    },
+    open: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    closed: { opacity: 0, x: -10 },
+    open: { opacity: 1, x: 0 }
   };
 
   return (
@@ -59,24 +97,66 @@ const Navbar = () => {
           </div>
 
           <div className="md:hidden flex items-center">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-gray-600">
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            <button 
+              onClick={() => setIsOpen(!isOpen)} 
+              className="p-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+              aria-label="Toggle menu"
+            >
+              <motion.div
+                animate={isOpen ? "open" : "closed"}
+                initial={false}
+              >
+                {isOpen ? <X size={24} /> : <Menu size={24} />}
+              </motion.div>
             </button>
           </div>
         </div>
       </div>
 
       {/* Mobile menu */}
-      {isOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 absolute w-full">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <NavLink href="#hero"><span className="block px-3 py-2">Mission</span></NavLink>
-            <NavLink href="#features"><span className="block px-3 py-2">Advantages</span></NavLink>
-            <NavLink href="#workflow"><span className="block px-3 py-2">How It Works</span></NavLink>
-            <a href="#" className="block px-3 py-2 text-primary font-medium">Analyze My Idea</a>
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[-1] md:hidden"
+            />
+            <motion.div
+              variants={menuVariants}
+              initial="closed"
+              animate="open"
+              exit="closed"
+              className="md:hidden bg-white border-t border-gray-100 absolute w-full shadow-xl overflow-hidden"
+            >
+              <div className="px-4 pt-2 pb-6 space-y-1">
+                <motion.div variants={itemVariants}>
+                  <NavLink href="#hero" onClick={() => setIsOpen(false)}>
+                    <span className="block px-3 py-3 text-base border-b border-gray-50">Mission</span>
+                  </NavLink>
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <NavLink href="#features" onClick={() => setIsOpen(false)}>
+                    <span className="block px-3 py-3 text-base border-b border-gray-50">Advantages</span>
+                  </NavLink>
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <NavLink href="#workflow" onClick={() => setIsOpen(false)}>
+                    <span className="block px-3 py-3 text-base border-b border-gray-50">How It Works</span>
+                  </NavLink>
+                </motion.div>
+                <motion.div variants={itemVariants} className="pt-4">
+                  <button className="w-full bg-black text-white px-5 py-3 rounded-xl hover:bg-gray-800 transition-all font-medium text-base">
+                    Analyze My Idea
+                  </button>
+                </motion.div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };
