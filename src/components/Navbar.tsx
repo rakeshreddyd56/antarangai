@@ -28,7 +28,7 @@ const Navbar = () => {
     }
   }, []);
 
-  const NavLink = ({ href, children, onClick }: { href: string, children: React.ReactNode, onClick?: () => void }) => {
+  const NavLink = ({ href, children, onClick, className }: { href: string, children: React.ReactNode, onClick?: () => void, className?: string }) => {
     // If on home page, regular anchor to hash works for scroll
     // If on other pages, link to /#hash to go back to home and scroll
     const linkHref = isHome ? href : `/${href}`;
@@ -37,7 +37,7 @@ const Navbar = () => {
       <a 
         href={linkHref} 
         onClick={onClick}
-        className="text-gray-600 hover:text-gray-900 transition-colors font-medium text-sm cursor-pointer"
+        className={className || "text-gray-600 hover:text-gray-900 transition-colors font-medium text-sm cursor-pointer"}
       >
         {children}
       </a>
@@ -46,25 +46,29 @@ const Navbar = () => {
 
   const menuVariants = {
     closed: {
-      opacity: 0,
-      y: -20,
+      x: "100%",
       transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
         staggerChildren: 0.05,
         staggerDirection: -1
       }
     },
     open: {
-      opacity: 1,
-      y: 0,
+      x: 0,
       transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
         staggerChildren: 0.1,
-        delayChildren: 0.1
+        delayChildren: 0.2
       }
     }
   };
 
   const itemVariants = {
-    closed: { opacity: 0, x: -10 },
+    closed: { opacity: 0, x: 20 },
     open: { opacity: 1, x: 0 }
   };
 
@@ -117,41 +121,97 @@ const Navbar = () => {
       <AnimatePresence>
         {isOpen && (
           <>
+            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[-1] md:hidden"
+              className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 md:hidden"
             />
+            
+            {/* Drawer */}
             <motion.div
               variants={menuVariants}
               initial="closed"
               animate="open"
               exit="closed"
-              className="md:hidden bg-white border-t border-gray-100 absolute w-full shadow-xl overflow-hidden"
+              className="fixed right-0 top-0 h-screen w-[80%] max-w-[320px] bg-white z-50 shadow-2xl md:hidden flex flex-col"
             >
-              <div className="px-4 pt-2 pb-6 space-y-1">
+              {/* Drawer Header */}
+              <div className="flex items-center justify-between p-4 border-b border-gray-50">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-50 border border-gray-100">
+                    <img src="/assets/logo-final.png" alt="Antarang Logo" className="w-full h-full object-cover" />
+                  </div>
+                  <span className="text-lg font-bold text-gray-900 tracking-tight">AntarangAI</span>
+                </div>
+                <button 
+                  onClick={() => setIsOpen(false)}
+                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-full transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Drawer Links */}
+              <div className="flex-1 overflow-y-auto py-6 px-4">
+                <div className="flex flex-col space-y-4">
+                  <motion.div variants={itemVariants}>
+                    <NavLink 
+                      href="#hero" 
+                      onClick={() => setIsOpen(false)}
+                      className="block group"
+                    >
+                      <div className="flex items-center justify-between px-4 py-4 rounded-2xl bg-gray-50/50 group-hover:bg-gray-100 transition-all border border-transparent group-hover:border-gray-200">
+                        <span className="text-xl font-semibold text-gray-800">Mission</span>
+                        <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center border border-gray-100 shadow-sm group-hover:scale-110 transition-transform">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover:text-gray-900"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                        </div>
+                      </div>
+                    </NavLink>
+                  </motion.div>
+                  <motion.div variants={itemVariants}>
+                    <NavLink 
+                      href="#features" 
+                      onClick={() => setIsOpen(false)}
+                      className="block group"
+                    >
+                      <div className="flex items-center justify-between px-4 py-4 rounded-2xl bg-gray-50/50 group-hover:bg-gray-100 transition-all border border-transparent group-hover:border-gray-200">
+                        <span className="text-xl font-semibold text-gray-800">Advantages</span>
+                        <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center border border-gray-100 shadow-sm group-hover:scale-110 transition-transform">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover:text-gray-900"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                        </div>
+                      </div>
+                    </NavLink>
+                  </motion.div>
+                  <motion.div variants={itemVariants}>
+                    <NavLink 
+                      href="#workflow" 
+                      onClick={() => setIsOpen(false)}
+                      className="block group"
+                    >
+                      <div className="flex items-center justify-between px-4 py-4 rounded-2xl bg-gray-50/50 group-hover:bg-gray-100 transition-all border border-transparent group-hover:border-gray-200">
+                        <span className="text-xl font-semibold text-gray-800">How It Works</span>
+                        <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center border border-gray-100 shadow-sm group-hover:scale-110 transition-transform">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover:text-gray-900"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                        </div>
+                      </div>
+                    </NavLink>
+                  </motion.div>
+                </div>
+              </div>
+
+              {/* Drawer Footer */}
+              <div className="p-6 border-t border-gray-50">
                 <motion.div variants={itemVariants}>
-                  <NavLink href="#hero" onClick={() => setIsOpen(false)}>
-                    <span className="block px-3 py-3 text-base border-b border-gray-50">Mission</span>
-                  </NavLink>
-                </motion.div>
-                <motion.div variants={itemVariants}>
-                  <NavLink href="#features" onClick={() => setIsOpen(false)}>
-                    <span className="block px-3 py-3 text-base border-b border-gray-50">Advantages</span>
-                  </NavLink>
-                </motion.div>
-                <motion.div variants={itemVariants}>
-                  <NavLink href="#workflow" onClick={() => setIsOpen(false)}>
-                    <span className="block px-3 py-3 text-base border-b border-gray-50">How It Works</span>
-                  </NavLink>
-                </motion.div>
-                <motion.div variants={itemVariants} className="pt-4">
-                  <button className="w-full bg-black text-white px-5 py-3 rounded-xl hover:bg-gray-800 transition-all font-medium text-base">
+                  <button className="w-full bg-black text-white px-5 py-4 rounded-2xl hover:bg-gray-800 transition-all font-semibold text-base shadow-lg shadow-black/5 active:scale-[0.98]">
                     Analyze My Idea
                   </button>
                 </motion.div>
+                <div className="mt-6 text-center">
+                  <p className="text-xs text-gray-400 font-medium tracking-wide uppercase">© 2026 AntarangAI</p>
+                </div>
               </div>
             </motion.div>
           </>
