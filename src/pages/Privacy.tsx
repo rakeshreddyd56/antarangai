@@ -83,7 +83,7 @@ const Privacy = () => {
 
             <h3 className="text-xl font-semibold text-gray-900 pt-4">11. Contact Us</h3>
             <p>
-              For questions, contact our Grievance Officer/Privacy Officer at: [Contact Email].
+              For questions, contact our Grievance Officer/Privacy Officer at: <a href="mailto:hello@antarangai.in" className="text-primary hover:underline">hello@antarangai.in</a>.
             </p>
           </div>
         </div>

@@ -51,7 +51,7 @@ const Cookies = () => {
               We may update our Cookie Policy. We will post changes here. Continued use implies acceptance.
             </p>
             <p>
-              If you have questions, please contact us at [Contact Email].
+              If you have questions, please contact us at <a href="mailto:hello@antarangai.in" className="text-primary hover:underline">hello@antarangai.in</a>.
             </p>
           </div>
         </div>
