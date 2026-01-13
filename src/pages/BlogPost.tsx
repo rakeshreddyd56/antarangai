@@ -423,21 +423,6 @@ const BlogPost = () => {
         </motion.div>
       </article>
 
-      {/* CTA Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-3xl mx-auto text-center">
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to validate your idea?</h3>
-          <p className="text-gray-600 mb-8">Stop guessing. Let AntarangAI analyze your startup idea with India-first intelligence.</p>
-          <Link 
-            to="/"
-            className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-full font-semibold transition-all transform hover:scale-105"
-          >
-            <Rocket size={20} />
-            Analyze My Idea Now
-          </Link>
-        </div>
-      </section>
-
       <Footer />
     </div>
   );
