@@ -135,39 +135,39 @@ const BlogPost = () => {
               <AnimatePresence>
                 {showShareOptions && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    className="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-xl border border-gray-100 p-3 z-50"
+                    initial={{ opacity: 0, y: 10, scale: 0.95, x: 20 }}
+                    animate={{ opacity: 1, y: 0, scale: 1, x: 0 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95, x: 20 }}
+                    className="absolute bottom-full left-0 mb-3 w-48 bg-white rounded-2xl shadow-2xl border border-gray-100 p-2 z-50 origin-bottom-left"
                   >
-                    <div className="grid grid-cols-1 gap-1">
+                    <div className="grid grid-cols-1 gap-0.5">
                       {shareLinks.map((link) => (
                         <a
                           key={link.name}
                           href={link.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors group"
+                          className="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition-colors group"
                         >
-                          <div className="flex items-center gap-3">
-                            <div className={`w-10 h-10 ${link.bgColor} ${link.color} rounded-full flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                              <link.icon size={18} />
+                          <div className="flex items-center gap-2.5">
+                            <div className={`w-8 h-8 ${link.bgColor} ${link.color} rounded-full flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                              <link.icon size={14} />
                             </div>
-                            <span className="font-medium text-gray-700">{link.name}</span>
+                            <span className="text-sm font-medium text-gray-700">{link.name}</span>
                           </div>
-                          <ExternalLink size={14} className="text-gray-300 group-hover:text-gray-400" />
+                          <ExternalLink size={12} className="text-gray-300 group-hover:text-gray-400" />
                         </a>
                       ))}
                       
                       <button
                         onClick={handleCopyLink}
-                        className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors group text-left w-full"
+                        className="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition-colors group text-left w-full"
                       >
-                        <div className="flex items-center gap-3">
-                          <div className={`w-10 h-10 ${copied ? 'bg-emerald-100 text-emerald-600' : 'bg-gray-100 text-gray-600'} rounded-full flex items-center justify-center transition-colors`}>
-                            {copied ? <Check size={18} /> : <Link2 size={18} />}
+                        <div className="flex items-center gap-2.5">
+                          <div className={`w-8 h-8 ${copied ? 'bg-emerald-100 text-emerald-600' : 'bg-gray-100 text-gray-600'} rounded-full flex items-center justify-center transition-colors`}>
+                            {copied ? <Check size={14} /> : <Link2 size={14} />}
                           </div>
-                          <span className="font-medium text-gray-700">
+                          <span className="text-sm font-medium text-gray-700">
                             {copied ? 'Copied!' : 'Copy Link'}
                           </span>
                         </div>
