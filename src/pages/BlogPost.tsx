@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, Clock, ArrowLeft, Share2, CheckCircle2, Zap, Brain, Target, Users, TrendingUp, FileText, Shield, Rocket, ExternalLink, Linkedin, Instagram, MessageCircle, Link2, Check } from 'lucide-react';
+import { Calendar, Clock, ArrowLeft, Share2, CheckCircle2, Zap, Brain, Target, Users, TrendingUp, FileText, Shield, Rocket, ExternalLink, Linkedin, MessageCircle, Link2, Check } from 'lucide-react';
 import { Link, useParams, Navigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import Navbar from '../components/Navbar';
@@ -59,13 +59,6 @@ const BlogPost = () => {
       url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
       color: 'text-blue-700',
       bgColor: 'bg-blue-50'
-    },
-    {
-      name: 'Instagram',
-      icon: Instagram,
-      url: `https://www.instagram.com/`, // Instagram doesn't have a direct share URL for web links
-      color: 'text-pink-600',
-      bgColor: 'bg-pink-50'
     }
   ];
 
@@ -138,7 +131,7 @@ const BlogPost = () => {
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    className="absolute top-full left-0 mt-3 bg-white rounded-2xl shadow-xl border border-gray-100 p-2 z-50 origin-top-left flex items-center gap-2"
+                    className="absolute top-full left-4 mt-3 bg-white rounded-2xl shadow-xl border border-gray-100 p-2 z-50 origin-top-left flex items-center gap-2"
                   >
                     {shareLinks.map((link) => (
                       <a
