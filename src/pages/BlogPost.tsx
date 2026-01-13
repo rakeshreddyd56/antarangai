@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, Clock, ArrowLeft, Share2, CheckCircle2, Zap, Brain, Target, Users, TrendingUp, FileText, Shield, Rocket, ExternalLink, Linkedin, Twitter, MessageCircle, Link2, Check } from 'lucide-react';
+import { Calendar, Clock, ArrowLeft, Share2, CheckCircle2, Zap, Brain, Target, Users, TrendingUp, FileText, Shield, Rocket, ExternalLink, Linkedin, Instagram, MessageCircle, Link2, Check } from 'lucide-react';
 import { Link, useParams, Navigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import Navbar from '../components/Navbar';
@@ -61,11 +61,11 @@ const BlogPost = () => {
       bgColor: 'bg-blue-50'
     },
     {
-      name: 'Twitter',
-      icon: Twitter,
-      url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareTitle)}&url=${encodeURIComponent(shareUrl)}`,
-      color: 'text-sky-500',
-      bgColor: 'bg-sky-50'
+      name: 'Instagram',
+      icon: Instagram,
+      url: `https://www.instagram.com/`, // Instagram doesn't have a direct share URL for web links
+      color: 'text-pink-600',
+      bgColor: 'bg-pink-50'
     }
   ];
 
@@ -135,44 +135,35 @@ const BlogPost = () => {
               <AnimatePresence>
                 {showShareOptions && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95, x: 20 }}
-                    animate={{ opacity: 1, y: 0, scale: 1, x: 0 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95, x: 20 }}
-                    className="absolute bottom-full left-0 mb-3 w-48 bg-white rounded-2xl shadow-2xl border border-gray-100 p-2 z-50 origin-bottom-left"
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    className="absolute top-full left-0 mt-3 bg-white rounded-2xl shadow-xl border border-gray-100 p-2 z-50 origin-top-left flex items-center gap-2"
                   >
-                    <div className="grid grid-cols-1 gap-0.5">
-                      {shareLinks.map((link) => (
-                        <a
-                          key={link.name}
-                          href={link.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition-colors group"
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <div className={`w-8 h-8 ${link.bgColor} ${link.color} rounded-full flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                              <link.icon size={14} />
-                            </div>
-                            <span className="text-sm font-medium text-gray-700">{link.name}</span>
-                          </div>
-                          <ExternalLink size={12} className="text-gray-300 group-hover:text-gray-400" />
-                        </a>
-                      ))}
-                      
-                      <button
-                        onClick={handleCopyLink}
-                        className="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition-colors group text-left w-full"
+                    {shareLinks.map((link) => (
+                      <a
+                        key={link.name}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`w-10 h-10 ${link.bgColor} ${link.color} rounded-xl flex items-center justify-center hover:scale-110 transition-transform shadow-sm border border-transparent hover:border-gray-200`}
+                        title={`Share on ${link.name}`}
                       >
-                        <div className="flex items-center gap-2.5">
-                          <div className={`w-8 h-8 ${copied ? 'bg-emerald-100 text-emerald-600' : 'bg-gray-100 text-gray-600'} rounded-full flex items-center justify-center transition-colors`}>
-                            {copied ? <Check size={14} /> : <Link2 size={14} />}
-                          </div>
-                          <span className="text-sm font-medium text-gray-700">
-                            {copied ? 'Copied!' : 'Copy Link'}
-                          </span>
-                        </div>
-                      </button>
-                    </div>
+                        <link.icon size={18} />
+                      </a>
+                    ))}
+                    
+                    <div className="w-px h-6 bg-gray-100 mx-1" />
+
+                    <button
+                      onClick={handleCopyLink}
+                      className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:scale-110 shadow-sm border border-transparent hover:border-gray-200 ${
+                        copied ? 'bg-emerald-100 text-emerald-600 border-emerald-200' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                      }`}
+                      title={copied ? 'Link Copied!' : 'Copy Link'}
+                    >
+                      {copied ? <Check size={18} /> : <Link2 size={18} />}
+                    </button>
                   </motion.div>
                 )}
               </AnimatePresence>
