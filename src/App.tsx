@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Features from './components/Features';
@@ -17,6 +18,21 @@ import Contact from './pages/Contact';
 import Support from './pages/Support';
 import ScrollToTop from './components/ScrollToTop';
 
+// Handle redirect from 404.html for SPA routing
+const RedirectHandler = () => {
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    const redirectPath = sessionStorage.getItem('redirectPath');
+    if (redirectPath) {
+      sessionStorage.removeItem('redirectPath');
+      navigate(redirectPath, { replace: true });
+    }
+  }, [navigate]);
+  
+  return null;
+};
+
 const LandingPage = () => (
   <div className="min-h-screen bg-white">
     <Navbar />
@@ -34,6 +50,7 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
+      <RedirectHandler />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/about" element={<About />} />

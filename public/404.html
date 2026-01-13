@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <script>
+      // Store the attempted path and redirect to the SPA
+      // This handles sub-page refreshes on hosts that don't support SPA routing natively (like GitHub Pages)
+      try {
+        const path = window.location.pathname + window.location.search + window.location.hash;
+        if (path && path !== '/') {
+          sessionStorage.setItem('redirectPath', path);
+        }
+      } catch (e) {
+        console.error('Failed to store redirect path', e);
+      }
+      window.location.replace('/');
+    </script>
+    <noscript>
+      <meta http-equiv="refresh" content="0;url=/" />
+    </noscript>
+  </head>
+  <body>
+    <p>Redirecting to <a href="/">home page</a>...</p>
+  </body>
+</html>
