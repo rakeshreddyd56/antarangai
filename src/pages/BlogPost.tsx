@@ -1,6 +1,7 @@
-import { motion } from 'framer-motion';
-import { Calendar, Clock, ArrowLeft, Share2, Bookmark, CheckCircle2, Zap, Brain, Target, Users, TrendingUp, FileText, Shield, Rocket, ExternalLink } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Calendar, Clock, ArrowLeft, Share2, CheckCircle2, Zap, Brain, Target, Users, TrendingUp, FileText, Shield, Rocket, ExternalLink, Linkedin, Twitter, MessageCircle, Link2, Check } from 'lucide-react';
 import { Link, useParams, Navigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -22,10 +23,57 @@ const blogPostsData: Record<string, {
 const BlogPost = () => {
   const { slug } = useParams();
   const post = slug ? blogPostsData[slug] : null;
+  const [showShareOptions, setShowShareOptions] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const shareRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (shareRef.current && !shareRef.current.contains(event.target as Node)) {
+        setShowShareOptions(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   if (!post) {
     return <Navigate to="/blog" replace />;
   }
+
+  const shareUrl = window.location.href;
+  const shareTitle = post.title;
+
+  const shareLinks = [
+    {
+      name: 'WhatsApp',
+      icon: MessageCircle,
+      url: `https://api.whatsapp.com/send?text=${encodeURIComponent(shareTitle + ' ' + shareUrl)}`,
+      color: 'text-green-600',
+      bgColor: 'bg-green-50'
+    },
+    {
+      name: 'LinkedIn',
+      icon: Linkedin,
+      url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
+      color: 'text-blue-700',
+      bgColor: 'bg-blue-50'
+    },
+    {
+      name: 'Twitter',
+      icon: Twitter,
+      url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareTitle)}&url=${encodeURIComponent(shareUrl)}`,
+      color: 'text-sky-500',
+      bgColor: 'bg-sky-50'
+    }
+  ];
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(shareUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -71,15 +119,63 @@ const BlogPost = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm font-medium transition-colors">
+            <div className="flex items-center gap-4 relative" ref={shareRef}>
+              <button 
+                onClick={() => setShowShareOptions(!showShareOptions)}
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-all shadow-sm ${
+                  showShareOptions 
+                    ? 'bg-emerald-600 text-white shadow-emerald-200' 
+                    : 'bg-white border border-gray-200 text-gray-700 hover:border-emerald-500 hover:text-emerald-600'
+                }`}
+              >
                 <Share2 size={16} />
-                Share
+                Share Article
               </button>
-              <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm font-medium transition-colors">
-                <Bookmark size={16} />
-                Save
-              </button>
+
+              <AnimatePresence>
+                {showShareOptions && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    className="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-xl border border-gray-100 p-3 z-50"
+                  >
+                    <div className="grid grid-cols-1 gap-1">
+                      {shareLinks.map((link) => (
+                        <a
+                          key={link.name}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors group"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className={`w-10 h-10 ${link.bgColor} ${link.color} rounded-full flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                              <link.icon size={18} />
+                            </div>
+                            <span className="font-medium text-gray-700">{link.name}</span>
+                          </div>
+                          <ExternalLink size={14} className="text-gray-300 group-hover:text-gray-400" />
+                        </a>
+                      ))}
+                      
+                      <button
+                        onClick={handleCopyLink}
+                        className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors group text-left w-full"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`w-10 h-10 ${copied ? 'bg-emerald-100 text-emerald-600' : 'bg-gray-100 text-gray-600'} rounded-full flex items-center justify-center transition-colors`}>
+                            {copied ? <Check size={18} /> : <Link2 size={18} />}
+                          </div>
+                          <span className="font-medium text-gray-700">
+                            {copied ? 'Copied!' : 'Copy Link'}
+                          </span>
+                        </div>
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         </div>
