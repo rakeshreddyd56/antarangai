@@ -128,10 +128,10 @@ const BlogPost = () => {
               <AnimatePresence>
                 {showShareOptions && (
                   <motion.div
-                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    className="absolute top-full left-4 mt-3 bg-white rounded-2xl shadow-xl border border-gray-100 p-2 z-50 origin-top-left flex items-center gap-2"
+                    initial={{ opacity: 0, x: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: -10, scale: 0.95 }}
+                    className="flex items-center gap-2"
                   >
                     {shareLinks.map((link) => (
                       <a
@@ -139,19 +139,17 @@ const BlogPost = () => {
                         href={link.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`w-10 h-10 ${link.bgColor} ${link.color} rounded-xl flex items-center justify-center hover:scale-110 transition-transform shadow-sm border border-transparent hover:border-gray-200`}
+                        className={`w-10 h-10 ${link.bgColor} ${link.color} rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm`}
                         title={`Share on ${link.name}`}
                       >
                         <link.icon size={18} />
                       </a>
                     ))}
                     
-                    <div className="w-px h-6 bg-gray-100 mx-1" />
-
                     <button
                       onClick={handleCopyLink}
-                      className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:scale-110 shadow-sm border border-transparent hover:border-gray-200 ${
-                        copied ? 'bg-emerald-100 text-emerald-600 border-emerald-200' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110 shadow-sm ${
+                        copied ? 'bg-emerald-100 text-emerald-600' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                       }`}
                       title={copied ? 'Link Copied!' : 'Copy Link'}
                     >
