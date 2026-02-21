@@ -95,9 +95,9 @@ const Navbar = () => {
             <NavLink href="#hero">Mission</NavLink>
             <NavLink href="#features">Advantages</NavLink>
             <NavLink href="#workflow">How It Works</NavLink>
-            <button className="bg-black text-white px-5 py-2 rounded-full hover:bg-gray-800 transition-all transform hover:scale-105 font-medium text-sm">
+            <Link to="/contact" className="bg-black text-white px-5 py-2 rounded-full hover:bg-gray-800 transition-all transform hover:scale-105 font-medium text-sm">
               Analyze My Idea
-            </button>
+            </Link>
           </div>
 
           <div className="md:hidden flex items-center">
@@ -205,9 +205,9 @@ const Navbar = () => {
               {/* Drawer Footer */}
               <div className="p-6 border-t border-gray-50">
                 <motion.div variants={itemVariants}>
-                  <button className="w-full bg-black text-white px-5 py-4 rounded-2xl hover:bg-gray-800 transition-all font-semibold text-base shadow-lg shadow-black/5 active:scale-[0.98]">
+                  <Link to="/contact" onClick={() => setIsOpen(false)} className="block w-full text-center bg-black text-white px-5 py-4 rounded-2xl hover:bg-gray-800 transition-all font-semibold text-base shadow-lg shadow-black/5 active:scale-[0.98]">
                     Analyze My Idea
-                  </button>
+                  </Link>
                 </motion.div>
                 <div className="mt-6 text-center">
                   <p className="text-xs text-gray-400 font-medium tracking-wide uppercase">© 2026 AntarangAI</p>
