@@ -1,73 +1,59 @@
-# React + TypeScript + Vite
+# AntarangAI Marketing Site
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+AntarangAI is a React + TypeScript + Vite marketing site for an India-first AI startup intelligence product.
 
-Currently, two official plugins are available:
+## Stack
+- React 18
+- TypeScript
+- Vite
+- Tailwind CSS
+- Framer Motion
+- React Router
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Local Development
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start dev server:
+   ```bash
+   npm run dev
+   ```
+3. Build for production:
+   ```bash
+   npm run build
+   ```
+4. Lint:
+   ```bash
+   npm run lint
+   ```
 
-## React Compiler
+## Routes
+- `/` landing page
+- `/about`
+- `/blog`
+- `/blog/:slug`
+- `/investors`
+- `/contact`
+- `/support`
+- `/legal`
+- `/privacy`
+- `/terms`
+- `/cookies`
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Structure
+- `src/components` shared sections and visuals
+- `src/pages` route-level pages
+- `public/assets` static images and branding assets
 
-## Expanding the ESLint configuration
+## Deployment Notes
+- SPA fallback is configured for Netlify and Vercel:
+  - `netlify.toml`
+  - `public/_redirects`
+  - `vercel.json`
+- `public/404.html` stores intended path and redirects to `/` for static hosts that do not support SPA deep-link routing.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Current Quality Baseline
+- CTA buttons are wired to real destinations (contact/demo/blog).
+- Tailwind class usage avoids dynamic color interpolation in page components.
+- ESLint is configured with TypeScript + React Hooks + React Refresh rules.

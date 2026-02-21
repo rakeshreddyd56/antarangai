@@ -4,15 +4,24 @@ import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
+type CategoryColor = 'emerald' | 'blue' | 'purple' | 'orange';
+
+const categoryStyles: Record<CategoryColor, { bg: string; text: string }> = {
+  emerald: { bg: 'bg-emerald-100', text: 'text-emerald-600' },
+  blue: { bg: 'bg-blue-100', text: 'text-blue-600' },
+  purple: { bg: 'bg-purple-100', text: 'text-purple-600' },
+  orange: { bg: 'bg-orange-100', text: 'text-orange-600' }
+};
+
 const Support = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   const faqCategories = [
-    { icon: Zap, label: 'Getting Started', color: 'emerald' },
-    { icon: BookOpen, label: 'Features', color: 'blue' },
-    { icon: CreditCard, label: 'Billing', color: 'purple' },
-    { icon: Shield, label: 'Security', color: 'orange' },
+    { icon: Zap, label: 'Getting Started', color: 'emerald' as CategoryColor },
+    { icon: BookOpen, label: 'Features', color: 'blue' as CategoryColor },
+    { icon: CreditCard, label: 'Billing', color: 'purple' as CategoryColor },
+    { icon: Shield, label: 'Security', color: 'orange' as CategoryColor },
   ];
 
   const faqs = [
@@ -122,21 +131,24 @@ const Support = () => {
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {faqCategories.map((category, index) => (
-              <motion.button
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="group flex flex-col items-center p-6 rounded-2xl bg-white border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all"
-              >
-                <div className={`w-12 h-12 bg-${category.color}-100 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
-                  <category.icon className={`text-${category.color}-600`} size={24} />
-                </div>
-                <span className="text-sm font-medium text-gray-700">{category.label}</span>
-              </motion.button>
-            ))}
+            {faqCategories.map((category, index) => {
+              const styles = categoryStyles[category.color];
+              return (
+                <motion.button
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  className="group flex flex-col items-center p-6 rounded-2xl bg-white border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all"
+                >
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform ${styles.bg}`}>
+                    <category.icon className={styles.text} size={24} />
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">{category.label}</span>
+                </motion.button>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -246,4 +258,3 @@ const Support = () => {
 };
 
 export default Support;
-
