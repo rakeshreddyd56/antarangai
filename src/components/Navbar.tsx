@@ -97,10 +97,7 @@ const Navbar = () => {
             <NavLink href="#hero">Mission</NavLink>
             <NavLink href="#features">Advantages</NavLink>
             <NavLink href="#workflow">How It Works</NavLink>
-            <Link
-              to={ANALYZE_ROUTE}
-              className="bg-black text-white px-5 py-2 rounded-full hover:bg-gray-800 transition-all transform hover:scale-105 font-medium text-sm"
-            >
+            <Link to="/contact" className="bg-black text-white px-5 py-2 rounded-full hover:bg-gray-800 transition-all transform hover:scale-105 font-medium text-sm">
               Analyze My Idea
             </Link>
           </div>
@@ -210,11 +207,7 @@ const Navbar = () => {
               {/* Drawer Footer */}
               <div className="p-6 border-t border-gray-50">
                 <motion.div variants={itemVariants}>
-                  <Link
-                    to={ANALYZE_ROUTE}
-                    onClick={() => setIsOpen(false)}
-                    className="block w-full text-center bg-black text-white px-5 py-4 rounded-2xl hover:bg-gray-800 transition-all font-semibold text-base shadow-lg shadow-black/5 active:scale-[0.98]"
-                  >
+                  <Link to="/contact" onClick={() => setIsOpen(false)} className="block w-full text-center bg-black text-white px-5 py-4 rounded-2xl hover:bg-gray-800 transition-all font-semibold text-base shadow-lg shadow-black/5 active:scale-[0.98]">
                     Analyze My Idea
                   </Link>
                 </motion.div>

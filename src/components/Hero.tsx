@@ -62,10 +62,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <Link
-              to="/contact"
-              className="group bg-primary hover:bg-primary-dark text-white text-lg px-8 py-4 rounded-full transition-all transform hover:scale-105 flex items-center shadow-lg hover:shadow-primary/25"
-            >
+            <Link to="/contact" className="group bg-primary hover:bg-primary-dark text-white text-lg px-8 py-4 rounded-full transition-all transform hover:scale-105 flex items-center shadow-lg hover:shadow-primary/25">
               Analyze My Idea
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Link>

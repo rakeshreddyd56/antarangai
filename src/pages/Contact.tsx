@@ -4,21 +4,18 @@ import { useState, type FormEvent } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-type ContactCardTone = 'emerald' | 'blue';
+type ContactCardColor = 'emerald' | 'blue';
 
-const contactCardToneClasses: Record<
-  ContactCardTone,
-  { glow: string; iconWrapper: string; icon: string; link: string }
-> = {
+const cardStyles: Record<ContactCardColor, { glow: string; iconWrap: string; icon: string; link: string }> = {
   emerald: {
     glow: 'bg-emerald-500/5 group-hover:bg-emerald-500/10',
-    iconWrapper: 'bg-gradient-to-br from-emerald-100 to-emerald-50 border-emerald-200/50',
+    iconWrap: 'from-emerald-100 to-emerald-50 border-emerald-200/50',
     icon: 'text-emerald-600',
     link: 'text-emerald-600 hover:text-emerald-700'
   },
   blue: {
     glow: 'bg-blue-500/5 group-hover:bg-blue-500/10',
-    iconWrapper: 'bg-gradient-to-br from-blue-100 to-blue-50 border-blue-200/50',
+    iconWrap: 'from-blue-100 to-blue-50 border-blue-200/50',
     icon: 'text-blue-600',
     link: 'text-blue-600 hover:text-blue-700'
   }
@@ -58,14 +55,14 @@ const Contact = () => {
       title: 'General Inquiries',
       description: 'Questions about our platform or services?',
       email: 'hello@antarangai.in',
-      color: 'emerald'
+      color: 'emerald' as ContactCardColor
     },
     {
       icon: MessageSquare,
       title: 'Technical Support',
       description: 'Need help with your account or facing issues?',
       email: 'support@antarangai.in',
-      color: 'blue'
+      color: 'blue' as ContactCardColor
     }
   ];
 
@@ -119,32 +116,35 @@ const Contact = () => {
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {contactCards.map((card, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="group relative bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300"
-              >
-                <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-2xl transition-colors ${contactCardToneClasses[card.color].glow}`}></div>
-                <div className="relative z-10">
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 border ${contactCardToneClasses[card.color].iconWrapper}`}>
-                    <card.icon className={contactCardToneClasses[card.color].icon} size={26} />
+            {contactCards.map((card, index) => {
+              const styles = cardStyles[card.color];
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="group relative bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300"
+                >
+                  <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-2xl transition-colors ${styles.glow}`}></div>
+                  <div className="relative z-10">
+                    <div className={`w-14 h-14 bg-gradient-to-br rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 border ${styles.iconWrap}`}>
+                      <card.icon className={styles.icon} size={26} />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{card.title}</h3>
+                    <p className="text-gray-600 mb-4">{card.description}</p>
+                    <a
+                      href={`mailto:${card.email}`}
+                      className={`inline-flex items-center gap-2 font-semibold transition-colors ${styles.link}`}
+                    >
+                      <Mail size={18} />
+                      {card.email}
+                    </a>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{card.title}</h3>
-                  <p className="text-gray-600 mb-4">{card.description}</p>
-                  <a 
-                    href={`mailto:${card.email}`}
-                    className={`inline-flex items-center gap-2 font-semibold transition-colors ${contactCardToneClasses[card.color].link}`}
-                  >
-                    <Mail size={18} />
-                    {card.email}
-                  </a>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
