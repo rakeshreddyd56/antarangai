@@ -4,11 +4,32 @@ import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
+type FaqCategoryTone = 'emerald' | 'blue' | 'purple' | 'orange';
+
+const faqCategoryToneClasses: Record<FaqCategoryTone, { wrapper: string; icon: string }> = {
+  emerald: {
+    wrapper: 'bg-emerald-100',
+    icon: 'text-emerald-600'
+  },
+  blue: {
+    wrapper: 'bg-blue-100',
+    icon: 'text-blue-600'
+  },
+  purple: {
+    wrapper: 'bg-purple-100',
+    icon: 'text-purple-600'
+  },
+  orange: {
+    wrapper: 'bg-orange-100',
+    icon: 'text-orange-600'
+  }
+};
+
 const Support = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const faqCategories = [
+  const faqCategories: Array<{ icon: typeof Zap; label: string; color: FaqCategoryTone }> = [
     { icon: Zap, label: 'Getting Started', color: 'emerald' },
     { icon: BookOpen, label: 'Features', color: 'blue' },
     { icon: CreditCard, label: 'Billing', color: 'purple' },
@@ -131,8 +152,8 @@ const Support = () => {
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 className="group flex flex-col items-center p-6 rounded-2xl bg-white border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all"
               >
-                <div className={`w-12 h-12 bg-${category.color}-100 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
-                  <category.icon className={`text-${category.color}-600`} size={24} />
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform ${faqCategoryToneClasses[category.color].wrapper}`}>
+                  <category.icon className={faqCategoryToneClasses[category.color].icon} size={24} />
                 </div>
                 <span className="text-sm font-medium text-gray-700">{category.label}</span>
               </motion.button>
@@ -246,4 +267,3 @@ const Support = () => {
 };
 
 export default Support;
-

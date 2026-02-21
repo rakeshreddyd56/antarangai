@@ -4,6 +4,26 @@ import { useState, type FormEvent } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
+type ContactCardTone = 'emerald' | 'blue';
+
+const contactCardToneClasses: Record<
+  ContactCardTone,
+  { glow: string; iconWrapper: string; icon: string; link: string }
+> = {
+  emerald: {
+    glow: 'bg-emerald-500/5 group-hover:bg-emerald-500/10',
+    iconWrapper: 'bg-gradient-to-br from-emerald-100 to-emerald-50 border-emerald-200/50',
+    icon: 'text-emerald-600',
+    link: 'text-emerald-600 hover:text-emerald-700'
+  },
+  blue: {
+    glow: 'bg-blue-500/5 group-hover:bg-blue-500/10',
+    iconWrapper: 'bg-gradient-to-br from-blue-100 to-blue-50 border-blue-200/50',
+    icon: 'text-blue-600',
+    link: 'text-blue-600 hover:text-blue-700'
+  }
+};
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -26,7 +46,13 @@ const Contact = () => {
     setFormData({ name: '', email: '', subject: '', message: '' });
   };
 
-  const contactCards = [
+  const contactCards: Array<{
+    icon: typeof Mail;
+    title: string;
+    description: string;
+    email: string;
+    color: ContactCardTone;
+  }> = [
     {
       icon: Mail,
       title: 'General Inquiries',
@@ -100,18 +126,18 @@ const Contact = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className={`group relative bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300`}
+                className="group relative bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300"
               >
-                <div className={`absolute top-0 right-0 w-32 h-32 bg-${card.color}-500/5 rounded-full blur-2xl group-hover:bg-${card.color}-500/10 transition-colors`}></div>
+                <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-2xl transition-colors ${contactCardToneClasses[card.color].glow}`}></div>
                 <div className="relative z-10">
-                  <div className={`w-14 h-14 bg-gradient-to-br from-${card.color}-100 to-${card.color}-50 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 border border-${card.color}-200/50`}>
-                    <card.icon className={`text-${card.color}-600`} size={26} />
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 border ${contactCardToneClasses[card.color].iconWrapper}`}>
+                    <card.icon className={contactCardToneClasses[card.color].icon} size={26} />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{card.title}</h3>
                   <p className="text-gray-600 mb-4">{card.description}</p>
                   <a 
                     href={`mailto:${card.email}`}
-                    className={`inline-flex items-center gap-2 text-${card.color}-600 hover:text-${card.color}-700 font-semibold transition-colors`}
+                    className={`inline-flex items-center gap-2 font-semibold transition-colors ${contactCardToneClasses[card.color].link}`}
                   >
                     <Mail size={18} />
                     {card.email}
@@ -297,4 +323,3 @@ const Contact = () => {
 };
 
 export default Contact;
-

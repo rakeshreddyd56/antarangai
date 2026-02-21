@@ -1,73 +1,37 @@
-# React + TypeScript + Vite
+# AntarangAI Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Landing website for AntarangAI, focused on communicating the product vision, trust surface, and conversion CTAs for Indian founders.
 
-Currently, two official plugins are available:
+## Vision
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Explain AntarangAI's India-first startup intelligence.
+- Guide visitors through mission, features, workflow, and demo.
+- Route high-intent actions into contact/support flows.
+- Keep legal and trust pages discoverable and consistent.
 
-## React Compiler
+## Architecture
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Framework: React + TypeScript + Vite
+- Routing: `react-router-dom`
+- UI: Tailwind CSS + Framer Motion + Lucide icons
+- Entry points:
+  - App shell and routes: `/Users/rakeshreddy/antarangai/src/App.tsx`
+  - Landing sections: `/Users/rakeshreddy/antarangai/src/components/`
+  - Legal/content pages: `/Users/rakeshreddy/antarangai/src/pages/`
 
-## Expanding the ESLint configuration
+## Scripts
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- `npm run dev`: local development server
+- `npm run lint`: ESLint checks
+- `npm run type-check`: TypeScript project checks
+- `npm run validate:quality`: CTA wiring and Tailwind class hardening checks
+- `npm run build`: type-check + production build
+- `npm run validate`: end-to-end quality harness (`lint` + `type-check` + `validate:quality` + build)
+- `npm run preview`: preview production build
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Quality Guardrails
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- No dead CTA placeholders like `href="#"`.
+- No dynamic Tailwind interpolation like `bg-${tone}-...` in source files.
+- Primary CTA routes must point to actionable destinations (`/contact` and `#demo`).
+- Demo section must expose `id="demo"` for in-page navigation.

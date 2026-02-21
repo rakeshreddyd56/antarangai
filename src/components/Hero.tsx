@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import HeroMapVisual from './visuals/HeroMapVisual';
 
 const Hero = () => {
@@ -61,13 +62,16 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <button className="group bg-primary hover:bg-primary-dark text-white text-lg px-8 py-4 rounded-full transition-all transform hover:scale-105 flex items-center shadow-lg hover:shadow-primary/25">
+            <Link
+              to="/contact"
+              className="group bg-primary hover:bg-primary-dark text-white text-lg px-8 py-4 rounded-full transition-all transform hover:scale-105 flex items-center shadow-lg hover:shadow-primary/25"
+            >
               Analyze My Idea
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button className="text-gray-600 hover:text-primary font-medium px-8 py-4 rounded-full transition-colors">
+            </Link>
+            <a href="#demo" className="text-gray-600 hover:text-primary font-medium px-8 py-4 rounded-full transition-colors">
               View Demo
-            </button>
+            </a>
           </motion.div>
         </div>
 

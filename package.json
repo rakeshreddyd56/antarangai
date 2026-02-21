@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "type-check": "tsc -b --pretty false",
+    "build": "npm run type-check && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "validate:quality": "node ./scripts/validate-quality.mjs",
+    "validate": "npm run lint && npm run type-check && npm run validate:quality && vite build"
   },
   "dependencies": {
     "clsx": "^2.1.1",
