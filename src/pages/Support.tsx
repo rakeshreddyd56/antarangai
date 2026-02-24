@@ -1,68 +1,107 @@
 import { motion } from 'framer-motion';
 import { HelpCircle, MessageSquare, Mail, ChevronDown, Search, BookOpen, Zap, Shield, CreditCard, ArrowRight } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-type CategoryColor = 'emerald' | 'blue' | 'purple' | 'orange';
+type FaqCategoryTone = 'emerald' | 'blue' | 'purple' | 'orange';
+type FaqCategory = 'getting-started' | 'features' | 'billing' | 'security';
 
-const categoryStyles: Record<CategoryColor, { bg: string; text: string }> = {
-  emerald: { bg: 'bg-emerald-100', text: 'text-emerald-600' },
-  blue: { bg: 'bg-blue-100', text: 'text-blue-600' },
-  purple: { bg: 'bg-purple-100', text: 'text-purple-600' },
-  orange: { bg: 'bg-orange-100', text: 'text-orange-600' }
+const faqCategoryToneClasses: Record<FaqCategoryTone, { wrapper: string; icon: string }> = {
+  emerald: {
+    wrapper: 'bg-emerald-100',
+    icon: 'text-emerald-600'
+  },
+  blue: {
+    wrapper: 'bg-blue-100',
+    icon: 'text-blue-600'
+  },
+  purple: {
+    wrapper: 'bg-purple-100',
+    icon: 'text-purple-600'
+  },
+  orange: {
+    wrapper: 'bg-orange-100',
+    icon: 'text-orange-600'
+  }
 };
 
 const Support = () => {
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [openFaqId, setOpenFaqId] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<FaqCategory | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const faqCategories = [
-    { icon: Zap, label: 'Getting Started', color: 'emerald' as CategoryColor },
-    { icon: BookOpen, label: 'Features', color: 'blue' as CategoryColor },
-    { icon: CreditCard, label: 'Billing', color: 'purple' as CategoryColor },
-    { icon: Shield, label: 'Security', color: 'orange' as CategoryColor },
+  const faqCategories: Array<{ id: FaqCategory; icon: typeof Zap; label: string; color: FaqCategoryTone }> = [
+    { id: 'getting-started', icon: Zap, label: 'Getting Started', color: 'emerald' },
+    { id: 'features', icon: BookOpen, label: 'Features', color: 'blue' },
+    { id: 'billing', icon: CreditCard, label: 'Billing', color: 'purple' },
+    { id: 'security', icon: Shield, label: 'Security', color: 'orange' },
   ];
 
   const faqs = [
     {
+      id: 'what-is-antarangai',
+      category: 'getting-started' as const,
       question: 'What is AntarangAI?',
       answer: 'AntarangAI is an AI-powered platform designed specifically for Indian entrepreneurs. We help you validate your startup idea, understand regulations, analyze competition, and create a comprehensive launch roadmap — all within minutes.'
     },
     {
+      id: 'how-ai-analysis-works',
+      category: 'features' as const,
       question: 'How does the AI analysis work?',
       answer: 'Our multi-agent AI system is trained on Indian startup data, regulations, and market insights. When you submit your idea, multiple specialized AI agents work together to analyze different aspects — market potential, regulatory requirements, competition, and more — to give you a comprehensive analysis.'
     },
     {
+      id: 'idea-confidentiality',
+      category: 'security' as const,
       question: 'Is my startup idea kept confidential?',
       answer: 'Absolutely. We take data privacy seriously. Your startup ideas and analysis results are encrypted and never shared with third parties. We follow strict data protection guidelines to ensure your information remains secure.'
     },
     {
+      id: 'who-can-use-platform',
+      category: 'getting-started' as const,
       question: 'What kind of startups can use AntarangAI?',
       answer: 'AntarangAI is built for all types of Indian startups — from D2C brands and fintech solutions to agritech, edtech, healthtech, and more. Our platform is sector-agnostic but India-specific, meaning we provide relevant insights regardless of your industry.'
     },
     {
+      id: 'regulatory-guidance-accuracy',
+      category: 'security' as const,
       question: 'How accurate is the regulatory guidance?',
       answer: 'Our regulatory guidance is based on extensive research of Indian laws and regulations including GST, FSSAI, RBI guidelines, and more. While we strive for accuracy, we always recommend consulting with legal professionals for specific compliance matters.'
     },
     {
+      id: 'refund-policy',
+      category: 'billing' as const,
       question: 'Do you offer refunds?',
       answer: 'Yes, we offer a satisfaction guarantee. If you\'re not happy with your analysis within 7 days of purchase, contact our support team at support@antarangai.in and we\'ll process your refund.'
     },
     {
+      id: 'technical-help',
+      category: 'getting-started' as const,
       question: 'How can I get help with technical issues?',
       answer: 'For any technical issues or account-related problems, please reach out to our support team at support@antarangai.in. We typically respond within 24 hours during business days.'
     },
     {
+      id: 'multiple-ideas',
+      category: 'features' as const,
       question: 'Can I use AntarangAI for multiple startup ideas?',
       answer: 'Yes! Depending on your plan, you can analyze multiple startup ideas. Each analysis is stored in your dashboard for future reference, allowing you to compare and refine your concepts.'
     }
   ];
 
-  const filteredFaqs = faqs.filter(faq => 
-    faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredFaqs = faqs.filter((faq) => {
+    const query = searchQuery.toLowerCase();
+    const matchesQuery =
+      faq.question.toLowerCase().includes(query) || faq.answer.toLowerCase().includes(query);
+    const matchesCategory = activeCategory === 'all' || faq.category === activeCategory;
+    return matchesQuery && matchesCategory;
+  });
+
+  useEffect(() => {
+    if (openFaqId && !filteredFaqs.some((faq) => faq.id === openFaqId)) {
+      setOpenFaqId(null);
+    }
+  }, [filteredFaqs, openFaqId]);
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -131,25 +170,37 @@ const Support = () => {
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {faqCategories.map((category, index) => {
-              const styles = categoryStyles[category.color];
-              return (
-                <motion.button
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="group flex flex-col items-center p-6 rounded-2xl bg-white border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all"
-                >
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform ${styles.bg}`}>
-                    <category.icon className={styles.text} size={24} />
-                  </div>
-                  <span className="text-sm font-medium text-gray-700">{category.label}</span>
-                </motion.button>
-              );
-            })}
+            {faqCategories.map((category, index) => (
+              <motion.button
+                key={category.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                onClick={() =>
+                  setActiveCategory((previous) =>
+                    previous === category.id ? 'all' : category.id
+                  )
+                }
+                aria-pressed={activeCategory === category.id}
+                className={`group flex flex-col items-center p-6 rounded-2xl border transition-all ${
+                  activeCategory === category.id
+                    ? 'bg-blue-50 border-blue-200 shadow-md'
+                    : 'bg-white border-gray-100 hover:border-gray-200 hover:shadow-lg'
+                }`}
+              >
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform ${faqCategoryToneClasses[category.color].wrapper}`}>
+                  <category.icon className={faqCategoryToneClasses[category.color].icon} size={24} />
+                </div>
+                <span className="text-sm font-medium text-gray-700">{category.label}</span>
+              </motion.button>
+            ))}
           </div>
+          <p className="text-sm text-gray-500 mt-4 text-center">
+            {activeCategory === 'all'
+              ? 'Showing all topics. Select a category to filter FAQs.'
+              : 'Filtered by category. Click the selected category again to clear the filter.'}
+          </p>
         </div>
       </section>
 
@@ -164,12 +215,15 @@ const Support = () => {
           >
             Frequently Asked Questions
           </motion.h2>
+          <p className="text-center text-sm text-gray-500 mb-8">
+            Showing {filteredFaqs.length} result{filteredFaqs.length === 1 ? '' : 's'}.
+          </p>
 
           <div className="space-y-4">
             {filteredFaqs.length > 0 ? (
               filteredFaqs.map((faq, index) => (
                 <motion.div
-                  key={index}
+                  key={faq.id}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -177,16 +231,16 @@ const Support = () => {
                   className="bg-white rounded-xl border border-gray-100 overflow-hidden"
                 >
                   <button
-                    onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                    onClick={() => setOpenFaqId(openFaqId === faq.id ? null : faq.id)}
                     className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
                   >
                     <span className="font-semibold text-gray-900 pr-4">{faq.question}</span>
                     <ChevronDown 
-                      className={`text-gray-400 flex-shrink-0 transition-transform ${openFaq === index ? 'rotate-180' : ''}`} 
+                      className={`text-gray-400 flex-shrink-0 transition-transform ${openFaqId === faq.id ? 'rotate-180' : ''}`} 
                       size={20} 
                     />
                   </button>
-                  {openFaq === index && (
+                  {openFaqId === faq.id && (
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}

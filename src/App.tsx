@@ -16,6 +16,7 @@ import BlogPost from './pages/BlogPost';
 import Investors from './pages/Investors';
 import Contact from './pages/Contact';
 import Support from './pages/Support';
+import NotFound from './pages/NotFound';
 import ScrollToTop from './components/ScrollToTop';
 
 // Handle redirect from 404.html for SPA routing
@@ -63,6 +64,7 @@ function App() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/cookies" element={<Cookies />} />
         <Route path="/legal" element={<Legal />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

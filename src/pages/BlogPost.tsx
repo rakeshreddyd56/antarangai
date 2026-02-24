@@ -24,7 +24,8 @@ const BlogPost = () => {
   const { slug } = useParams();
   const post = slug ? blogPostsData[slug] : null;
   const [showShareOptions, setShowShareOptions] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [copyStatus, setCopyStatus] = useState<'idle' | 'copied' | 'error'>('idle');
+  const [copyError, setCopyError] = useState('');
   const shareRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,6 +38,18 @@ const BlogPost = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (copyStatus !== 'copied') {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setCopyStatus('idle');
+    }, 2000);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [copyStatus]);
 
   if (!post) {
     return <Navigate to="/blog" replace />;
@@ -62,10 +75,21 @@ const BlogPost = () => {
     }
   ];
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(shareUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopyLink = async () => {
+    setCopyError('');
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(shareUrl);
+      } else {
+        throw new Error('Clipboard API unavailable');
+      }
+
+      setCopyStatus('copied');
+    } catch (clipboardError) {
+      console.error(clipboardError);
+      setCopyStatus('error');
+      setCopyError('Copy failed. Please copy the URL from your browser address bar.');
+    }
   };
 
   return (
@@ -149,16 +173,21 @@ const BlogPost = () => {
                     <button
                       onClick={handleCopyLink}
                       className={`w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110 shadow-sm ${
-                        copied ? 'bg-emerald-100 text-emerald-600' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        copyStatus === 'copied'
+                          ? 'bg-emerald-100 text-emerald-600'
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                       }`}
-                      title={copied ? 'Link Copied!' : 'Copy Link'}
+                      title={copyStatus === 'copied' ? 'Link Copied!' : 'Copy Link'}
                     >
-                      {copied ? <Check size={18} /> : <Link2 size={18} />}
+                      {copyStatus === 'copied' ? <Check size={18} /> : <Link2 size={18} />}
                     </button>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
+            {copyStatus === 'error' ? (
+              <p className="text-sm text-red-600 mt-3">{copyError}</p>
+            ) : null}
           </motion.div>
         </div>
       </section>
@@ -507,4 +536,3 @@ const BlogPost = () => {
 };
 
 export default BlogPost;
-
