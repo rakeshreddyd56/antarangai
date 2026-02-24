@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-<<<<<<< HEAD
 type FaqCategoryTone = 'emerald' | 'blue' | 'purple' | 'orange';
 type FaqCategory = 'getting-started' | 'features' | 'billing' | 'security';
 
