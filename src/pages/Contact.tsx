@@ -96,7 +96,7 @@ const Contact = () => {
     title: string;
     description: string;
     email: string;
-    color: ContactCardTone;
+    color: ContactCardColor;
   }> = [
     {
       icon: Mail,

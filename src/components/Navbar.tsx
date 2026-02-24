@@ -3,8 +3,6 @@ import { Menu, X, ShieldCheck } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const ANALYZE_ROUTE = '/contact';
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSecure, setIsSecure] = React.useState(false);
