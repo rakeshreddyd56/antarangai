@@ -21,26 +21,74 @@ const cardStyles: Record<ContactCardColor, { glow: string; iconWrap: string; ico
   }
 };
 
+type ContactFormData = {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+};
+
+const emptyFormData: ContactFormData = {
+  name: '',
+  email: '',
+  subject: '',
+  message: ''
+};
+
+const rawEndpoint = import.meta.env.VITE_CONTACT_FORM_ENDPOINT;
+const CONTACT_FORM_ENDPOINT = typeof rawEndpoint === 'string' ? rawEndpoint.trim() : '';
+
+const buildMailtoUrl = (payload: ContactFormData) => {
+  const lines = [
+    `Name: ${payload.name}`,
+    `Email: ${payload.email}`,
+    '',
+    payload.message
+  ];
+
+  const subject = encodeURIComponent(payload.subject);
+  const body = encodeURIComponent(lines.join('\n'));
+  return `mailto:hello@antarangai.in?subject=${subject}&body=${body}`;
+};
+
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
+  const [formData, setFormData] = useState<ContactFormData>(emptyFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+
+  const hasApiEndpoint = CONTACT_FORM_ENDPOINT.length > 0;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setSubmitted(true);
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setSubmitError('');
+
+    try {
+      if (hasApiEndpoint) {
+        const response = await fetch(CONTACT_FORM_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        if (!response.ok) {
+          throw new Error(`Contact submission failed with status ${response.status}`);
+        }
+      } else {
+        window.location.href = buildMailtoUrl(formData);
+      }
+
+      setSubmitted(true);
+      setFormData(emptyFormData);
+    } catch (error) {
+      setSubmitError('Unable to submit right now. Please email hello@antarangai.in directly.');
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactCards: Array<{
@@ -174,7 +222,11 @@ const Contact = () => {
                       <Send className="text-emerald-600" size={32} />
                     </div>
                     <h3 className="text-xl font-bold text-gray-900 mb-2">Message Sent!</h3>
-                    <p className="text-gray-600 mb-6">Thank you for reaching out. We'll get back to you soon.</p>
+                    <p className="text-gray-600 mb-6">
+                      {hasApiEndpoint
+                        ? "Thank you for reaching out. We'll get back to you soon."
+                        : 'Your email draft has been opened. Send it to complete your message.'}
+                    </p>
                     <button 
                       onClick={() => setSubmitted(false)}
                       className="text-emerald-600 hover:text-emerald-700 font-medium"
@@ -253,15 +305,23 @@ const Contact = () => {
                       {isSubmitting ? (
                         <>
                           <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                          Sending...
+                          {hasApiEndpoint ? 'Sending...' : 'Opening draft...'}
                         </>
                       ) : (
                         <>
                           <Send size={20} />
-                          Send Message
+                          {hasApiEndpoint ? 'Send Message' : 'Create Email Draft'}
                         </>
                       )}
                     </button>
+                    <p className="text-xs text-gray-500">
+                      {hasApiEndpoint
+                        ? 'Messages are sent securely to our support endpoint.'
+                        : 'No API endpoint configured. We will open your email client with a pre-filled draft.'}
+                    </p>
+                    {submitError ? (
+                      <p className="text-sm font-medium text-red-600">{submitError}</p>
+                    ) : null}
                   </form>
                 )}
               </div>

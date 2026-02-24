@@ -22,6 +22,10 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
+        handwriting: ['cursive'],
+      },
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
       },
     },
   },

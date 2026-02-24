@@ -24,10 +24,17 @@ Landing website for AntarangAI, focused on communicating the product vision, tru
 - `npm run dev`: local development server
 - `npm run lint`: ESLint checks
 - `npm run type-check`: TypeScript project checks
+- `npm run test`: route/widget regression suite (Vitest + Testing Library)
+- `npm run test:watch`: watch mode for local test development
 - `npm run validate:quality`: CTA wiring and Tailwind class hardening checks
 - `npm run build`: type-check + production build
-- `npm run validate`: end-to-end quality harness (`lint` + `type-check` + `validate:quality` + build)
+- `npm run validate`: end-to-end quality harness (`lint` + `type-check` + `test` + `validate:quality` + build)
 - `npm run preview`: preview production build
+
+## Contact Form Delivery
+
+- Set `VITE_CONTACT_FORM_ENDPOINT` to enable direct API delivery from `/contact`.
+- If `VITE_CONTACT_FORM_ENDPOINT` is not set, the form falls back to opening a pre-filled `mailto:` draft so user input is not silently discarded.
 
 ## Quality Guardrails
 
